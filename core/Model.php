@@ -9,6 +9,7 @@ abstract class Model{
     public const RULE_MIN = 'min';
     public const RULE_MAX = 'max';
     public const RULE_MATCH = 'match';
+    public const RULE_UNIQUE = 'unique';
     
     public function loadData($data){
         foreach($data as $key => $value){
@@ -44,6 +45,12 @@ abstract class Model{
                 }
                 if($ruleName===self::RULE_MATCH && $value !== $this->{$rule['match']}){
                     $this->addError($attribute, self::RULE_MATCH, $rule);
+                }
+                if($ruleName===self::RULE_UNIQUE){
+                    $className = $rule['class'];
+                    $uniqueAttribute = $rule['attribute'] ?? $attribute;
+                    $tableName = $className::tableName();
+                    Application::$app->db->pdo
                 }
             }
         }
