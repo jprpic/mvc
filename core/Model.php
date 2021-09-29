@@ -50,7 +50,13 @@ abstract class Model{
                     $className = $rule['class'];
                     $uniqueAttribute = $rule['attribute'] ?? $attribute;
                     $tableName = $className::tableName();
-                    Application::$app->db->pdo
+                    $statement = Application::$app->db->prepare("SELECT * FROM $tableName WHERE $uniqueAttribute = :attr");
+                    $statement->bindValue(":attr",$value);
+                    $statement->execute();
+                    $record = $statement->fetchObject();
+                    if($record){
+                        $this->addError($attribute,self::RULE_UNIQUE,['field'=>$attribute]);
+                    }
                 }
             }
         }
@@ -72,7 +78,8 @@ abstract class Model{
             self::RULE_EMAIL => 'This field must be a valid email address',
             self::RULE_MIN => 'This field must be min length {min}',
             self::RULE_MAX => 'This field must be max length {max}',
-            self::RULE_MATCH => 'This field must match field {match}'
+            self::RULE_MATCH => 'This field must match field {match}',
+            self::RULE_UNIQUE => 'Record with this {field} already exists'
         ];
     }
 
