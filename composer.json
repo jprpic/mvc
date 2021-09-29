@@ -1,0 +1,19 @@
+{
+    "name": "jakov-pc/mvc",
+    "autoload": {
+        "psr-4": {
+            "JakovPc\\Mvc\\": "src/",
+            "app\\": "./"
+
+        }
+    },
+    "authors": [
+        {
+            "name": "Jakov Prpić",
+            "email": "jakov.prpic23@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.3"
+    }
+}
